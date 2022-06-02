@@ -22,7 +22,7 @@ public class Main {
 						System.out.println("using " + grayscale + " as grayscale");
 					} catch(NumberFormatException e0) {
 						try {
-							grayscale = Integer.parseInt(val, 16); // try to parse hex
+							grayscale = (int) Long.parseLong(val, 16); // try to parse hex
 							System.out.println("using " + grayscale + " as grayscale");
 						} catch(NumberFormatException e1) {
 							System.out.println("NaN: " + e1.getMessage());
@@ -37,7 +37,7 @@ public class Main {
 						System.out.println("using " + threshold + " as threshold");
 					} catch(NumberFormatException e0) {
 						try {
-							threshold = Integer.parseInt(val, 16);
+							threshold = (int) Long.parseLong(val, 16);
 							System.out.println("using " + threshold + " as threshold");
 						} catch(NumberFormatException e1) {
 							System.out.println("NaN: " + e1.getMessage());

@@ -2,13 +2,18 @@ package imageop.operations;
 
 import java.awt.image.BufferedImage;
 
+import imageop.Changeable;
 import imageop.ImageOperation;
 
 public class RemoveGrayOperation extends ImageOperation {
-	private int grayscale, threshold;
+	@Changeable(displayName = "grayscale")
+	private int grayscale;
+	@Changeable(displayName = "threshold")
+	private long threshold;
+	
 	
 	public RemoveGrayOperation(int grayscale, int threshold) {
-		super("remove gray pixels");
+		super("unblur");
 		this.grayscale = grayscale;
 		this.threshold = threshold;
 	}

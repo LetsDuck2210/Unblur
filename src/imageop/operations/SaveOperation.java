@@ -12,7 +12,7 @@ import imageop.ImageOperation;
 public class SaveOperation extends ImageOperation {
 
 	public SaveOperation() {
-		super("Save");
+		super("save");
 	}
 
 	@Override

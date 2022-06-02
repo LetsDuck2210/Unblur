@@ -14,6 +14,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import imageop.Changeable;
 import imageop.ImageOperation;
 
 public class Frame {
@@ -54,7 +55,7 @@ public class Frame {
 		selectFile();
 		if(selectedImage == null) return;
 		
-		frame.setSize(selectedImage.getWidth(), selectedImage.getHeight());
+		frame.setSize(selectedImage.getWidth() + 16, selectedImage.getHeight() + 16);
 		container.setSize(frame.getSize());
 		debug.setSize(frame.getSize());
 		
@@ -94,13 +95,26 @@ public class Frame {
 		for(int i = 0; i < operations.size(); i++) {
 			var operation = operations.get(i);
 			var button = new JButton(operation.getDisplay());
-			button.setSize((int) Math.round(container.getWidth() / 1.5), 30);
-			button.setLocation((int) Math.round(container.getWidth() / 2 - button.getWidth() / 2) - 8, i * (button.getHeight() + 5));
+			var hasChangeableFields = hasChangeableField(operation.getClass());
+			final var editThreshold = (hasChangeableFields ? 80 : 0);
+			
+			button.setSize((int) Math.round(container.getWidth() / 1.5) - editThreshold, 30);
+			button.setLocation((int) Math.round(container.getWidth() / 2 - (button.getWidth() + editThreshold) / 2) - 8, i * (button.getHeight() + 5));
 			button.addActionListener(l -> { 
 				operation.apply(selectedImage);
 				renderer.repaint(); // update image on screen
 			});
+			
+			if(hasChangeableFields) {
+				var editButton = new JButton("Edit");
+				editButton.setSize(70, 30);
+				editButton.setLocation(button.getX() + button.getWidth() + 10, button.getY());
+				editButton.addActionListener(l -> ImageOperationFrame.get().showGUI(operation));
+				
+				container.add(editButton);
+			}
 			container.add(button);
+			container.repaint();
 		}
 	}
 	public void addImageOperation(ImageOperation...operations) {
@@ -110,6 +124,16 @@ public class Frame {
 	public void debug(Color color, String text) {
 		debug.setForeground(color);
 		debug.setText(text);
+	}
+	
+	public boolean hasChangeableField(Class<?> clazz) {
+		var fields = clazz.getDeclaredFields();
+		for(int i = 0; i < fields.length; i++) {
+			if(fields[i].isAnnotationPresent(Changeable.class))
+				return true;
+		}
+		
+		return false;
 	}
 	
 	public void selectFile() {
