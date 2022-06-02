@@ -6,7 +6,7 @@ import imageop.operations.SaveOperation;
 
 public class Main {
 	public static void main(String[] args) {
-		int threshold = 0xf4240; // -> 1 mil
+		long threshold = 0xf4240; // -> 1 mil
 		int grayscale = 0xffadadad; // light gray
 		
 		// parse arguments to override default values
@@ -37,7 +37,7 @@ public class Main {
 						System.out.println("using " + threshold + " as threshold");
 					} catch(NumberFormatException e0) {
 						try {
-							threshold = (int) Long.parseLong(val, 16);
+							threshold = Long.parseLong(val, 16);
 							System.out.println("using " + threshold + " as threshold");
 						} catch(NumberFormatException e1) {
 							System.out.println("NaN: " + e1.getMessage());

@@ -12,7 +12,7 @@ public class RemoveGrayOperation extends ImageOperation {
 	private long threshold;
 	
 	
-	public RemoveGrayOperation(int grayscale, int threshold) {
+	public RemoveGrayOperation(int grayscale, long threshold) {
 		super("unblur");
 		this.grayscale = grayscale;
 		this.threshold = threshold;
